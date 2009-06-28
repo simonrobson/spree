@@ -3,5 +3,12 @@ class Image < Asset
                     :styles => { :mini => '48x48>', :small => '100x100>', :product => '240x240>', :large => '600x600>' }, 
                     :default_style => :product,
                     :url => "/assets/products/:id/:style/:basename.:extension",
-                    :path => ":rails_root/public/assets/products/:id/:style/:basename.:extension"
+                    :path => ":rails_root/public/assets/products/:id/:style/:basename.:extension",
+                    :whiny_thumbnails => true
+
+  def validate
+    unless attachment.errors.empty?
+      raise "Paperclip returned errors - check ImageMagick installation or image source file: #{@errors.first.inspect}" 
+    end
+  end 
 end
